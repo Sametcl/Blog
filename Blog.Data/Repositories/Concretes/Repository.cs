@@ -19,7 +19,7 @@ namespace Blog.Data.Repositories.Concretes
         public async Task<List<T>> GetAllAsync(Expression<Func<T,bool>> predicate=null, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = Table;
-            if (includeProperties != null)
+            if (predicate != null)
                 query = query.Where(predicate);
             if(includeProperties.Any())
                 foreach (var item in includeProperties)
