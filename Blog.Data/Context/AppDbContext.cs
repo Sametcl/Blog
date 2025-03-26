@@ -1,5 +1,7 @@
-﻿using Blog.Entity.Entities;
+﻿using Blog.Data.Mappings;
+using Blog.Entity.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Blog.Data.Context
 {
@@ -12,5 +14,13 @@ namespace Blog.Data.Context
         public DbSet<Article> Articles { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            //builder.Entity<Article>().Property(x=>x.Title).HasMaxLength(50); bu kullanim clean bir yapi sunmuyor bu nedenle mapping klasoru altinda topluyoruz bu bilgileri 
+            //builder.ApplyConfiguration(new ArticleMap()); bu sekilde bir kullanim saglarsak tum map islerini tek tek eklemeiz lazim 
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());//bu kullanim tum mapping configration islerini aliyor dogru kullanim
+            //Assembly == bulundugu katmanin adi "blog.data" diye dusunebiliriz
+        }
     }
 }

@@ -4,6 +4,7 @@ using Blog.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250326124948_mig2")]
+    partial class mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,8 @@ namespace Blog.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
@@ -74,32 +78,6 @@ namespace Blog.Data.Migrations
                     b.HasIndex("ImageId");
 
                     b.ToTable("Articles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("1dd7f56a-4196-42b3-bdfe-ac24661aa542"),
-                            CategoryId = new Guid("bfe1a6e9-018d-4352-859e-c89b86bbbd45"),
-                            Content = "Asp.net Core Praesent placerat, magna in vehicula vestibulum, felis urna cursus lorem, sed vestibulum quam eros vel libero. Vivamus commodo, odio sed fringilla pretium, sem nulla feugiat odio, in cursus elit dolor et ex.\r\n",
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2025, 3, 26, 16, 28, 6, 825, DateTimeKind.Local).AddTicks(4619),
-                            ImageId = new Guid("b30c5b91-e13f-4062-b280-9342df03455f"),
-                            IsDeleted = false,
-                            Title = "Asp.net Core Deneme Makalesi 1",
-                            ViewCount = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("3bd5543a-8edd-4874-9294-33f08926218b"),
-                            CategoryId = new Guid("1afe63d4-5d08-4cf9-8c0c-cfb9c1938da2"),
-                            Content = "Java Deneme Praesent placerat, magna in vehicula vestibulum, felis urna cursus lorem, sed vestibulum quam eros vel libero. Vivamus commodo, odio sed fringilla pretium, sem nulla feugiat odio, in cursus elit dolor et ex.\r\n",
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2025, 3, 26, 16, 28, 6, 825, DateTimeKind.Local).AddTicks(4625),
-                            ImageId = new Guid("bb26ba2f-0403-4b31-8ddf-5e04b4cfadb7"),
-                            IsDeleted = false,
-                            Title = "Java Deneme Makalesi 1",
-                            ViewCount = 15
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.Category", b =>
@@ -137,24 +115,6 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("bfe1a6e9-018d-4352-859e-c89b86bbbd45"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2025, 3, 26, 16, 28, 6, 825, DateTimeKind.Local).AddTicks(5970),
-                            IsDeleted = false,
-                            Name = "Asp.net Core"
-                        },
-                        new
-                        {
-                            Id = new Guid("1afe63d4-5d08-4cf9-8c0c-cfb9c1938da2"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2025, 3, 26, 16, 28, 6, 825, DateTimeKind.Local).AddTicks(5972),
-                            IsDeleted = false,
-                            Name = "Java"
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.Image", b =>
@@ -196,26 +156,6 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Images");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b30c5b91-e13f-4062-b280-9342df03455f"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2025, 3, 26, 16, 28, 6, 825, DateTimeKind.Local).AddTicks(7093),
-                            FileName = "images/testimage",
-                            FileType = "jpg",
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            Id = new Guid("bb26ba2f-0403-4b31-8ddf-5e04b4cfadb7"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2025, 3, 26, 16, 28, 6, 825, DateTimeKind.Local).AddTicks(7143),
-                            FileName = "images/javatest",
-                            FileType = "png",
-                            IsDeleted = false
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.Article", b =>

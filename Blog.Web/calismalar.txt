@@ -1,0 +1,19 @@
+﻿1.GUN
+1 - Entity katmaninda entities olusturulup bu entity de core katmaninda olusturdugumuz entitybase  entitybase'den ortak kisimlar inherit edildi 
+2 - Data katmaninda dbcontext olusturup tablo isimlerini verildi 
+3 - Web katmaninda appsettings altinda sqlkey ve program.cs de service olarak dbcontext eklendi 
+4 - Data katmaninda migration islemi gerceklestirildi 
+5 - Kullanilan paketler
+	(
+	.Microsoft.EntityFrameworkCore  --> Data 
+	.Microsoft.EntityFrameworkCore.SqlServer  --> Data , Web
+	.Microsoft.EntityFrameworkCore.Design --> Data , Web
+	.Microsoft.EntityFrameworkCore.Tools--> Data
+	)
+6 - Referanslar 
+	(Data-Entity) (Entity-Core) (Web-Data)
+
+
+2.GUN
+ mapping ve context arasida ki baglanti 
+ hasdata ile dataseed 
