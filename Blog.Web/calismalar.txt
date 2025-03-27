@@ -21,5 +21,6 @@
 4-Data katmaninda extensions yazildi 
 
 3.GUN
-1-Data katmaninda UnitOfWork yapisi kullanildi sebebi tek yerde ngeneric repository yonetimi 
+1-Data katmaninda UnitOfWork yapisi kullanildi sebebi tek yerden generic repository yonetimini saglamak.
+2-
  
