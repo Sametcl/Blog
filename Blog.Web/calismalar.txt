@@ -6,20 +6,20 @@
 5 - Kullanilan paketler
 	(
 	.Microsoft.EntityFrameworkCore  --> Data 
-	.Microsoft.EntityFrameworkCore.SqlServer  --> Data , Web
-	.Microsoft.EntityFrameworkCore.Design --> Data , Web
-	.Microsoft.EntityFrameworkCore.Tools--> Dataff
+	.Microsoft.EntityFrameworkCore.SqlServer  --> Data
+	.Microsoft.EntityFrameworkCore.Design --> Web
+	.Microsoft.EntityFrameworkCore.Tools--> Data
 	)
 6 - Referanslar 
 	(Data-Entity) (Entity-Core) (Web-Data)
 
 
 2.GUN
- mapping ve context arasida ki baglanti 
- hasdata ile dataseed 
- data altinda repository
- data altinda extensions 
 1-Data katmaninda context classi altinda overide configuration metodu olusturup assembly ile tum katman altindaki configuration metotlarini tanittik.Detaylari context classi icinde yaziyor
 2-Mapping adinda seed data verilerimizi eklemk icin bir folder olusturup bunu icine entitylerimiz adiyla birer map islemi classi acildi.  
 3-Data katmaninda Interface repo ve somut repo yazildi 
 4-Data katmaninda extensions yazildi 
+
+3.GUN
+1-Data katmaninda UnitOfWork yapisi kullanildi sebebi tek yerde ngeneric repository yonetimi 
+ 

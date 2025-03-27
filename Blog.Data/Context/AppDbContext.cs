@@ -19,7 +19,7 @@ namespace Blog.Data.Context
         {
             //builder.Entity<Article>().Property(x=>x.Title).HasMaxLength(50); bu kullanim clean bir yapi sunmuyor bu nedenle mapping klasoru altinda topluyoruz bu bilgileri 
             //builder.ApplyConfiguration(new ArticleMap()); bu sekilde bir kullanim saglarsak tum map islerini tek tek eklemeiz lazim 
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());//bu kullanim tum mapping configration islerini aliyor dogru kullanim
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());//bu kullanim tum mapping configuration islerini aliyor dogru kullanim
             //Assembly == bulundugu katmanin adi "blog.data" diye dusunebiliriz
         }
     }
