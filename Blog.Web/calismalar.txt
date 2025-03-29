@@ -24,3 +24,10 @@
 1-Data katmaninda UnitOfWork yapisi kullanildi sebebi tek yerden generic repository yonetimini saglamak.
 2-Service katmaninda interface ve somut olarak serviceler eklendi ve service extensions yazildi.
 3-Web katmaninda area olusturuldu ve ardindan mvc yapsii kurudu ve program.cs de route ayarlari yapildi.
+
+
+4.GUN 
+1-Admin Paneli icin Area ve Template kisimlari yapildi 
+2-Entity katmaninda dto modelleri olusturul
+2-Entity katmaninda dto modelleri olusturuldu.
+2-Service Katmaninda AutoMapper kutuphanesi entegre edildi 
