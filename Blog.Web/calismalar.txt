@@ -32,7 +32,12 @@
 3-Service Katmaninda AutoMapper kutuphanesi entegre edildi 
 
 5.GUN
-1-Entity katmanina gerekli tablelar olusturuldu 
+1-Entity katmanina gerekli tablolar olusturuldu 
 2-Data Katmaninda context yapimiz identity e gore cofigration yapildi
 3-Data Katmaninda seed data icin mapping islemlerimizi yapiyoruz ve verileri ekliyoruz 
 
+
+6.GUN
+1-Web Katmaninda program.cs e Identity tanitip session ve ConfigureApplicationCookie ayarlamalari yapilidi 
+2-Entity katmaninda user ile diger tablolar arasidnaki iliski proplari yazildi
+3-Data katmaninda mappleme islemleri yapildi 
