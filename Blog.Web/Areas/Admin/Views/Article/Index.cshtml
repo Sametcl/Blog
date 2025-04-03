@@ -1,0 +1,56 @@
+﻿@model List<ArticleDto>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-nuted fw-light">Makale Yonetimi /</span>Makaleler
+    </h4>
+   
+    <div class="card">
+       
+        <div class="table-responsive text-nowrap m-5">
+            <table class="table table-bordered" id="articlesTable" width="100%" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Baslik</th>
+                        <th>Kategori</th>
+                        <th>Olusturulma Tarihi</th>
+                        <th>Olusturan</th>
+                        <th>Durum</th>
+                        <th>Islemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Baslik</th>
+                        <th>Kategori</th>
+                        <th>Olusturulma Tarihi</th>
+                        <th>Olusturan</th>
+                        <th>Durum</th>
+                        <th>Islemler</th>
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                   @foreach (var article in Model)
+                   {
+                       <tr name="@article.Id">
+                           <td>@article.Title</td>
+                           <td>@article.Category.Name</td>
+                           <td>@article.CreatedDate.ToShortDateString()</td>
+                           <td>@article.CreatedBy</td>
+                           <td>@(article.IsDeleted ? "Aktif Degil" : "Aktif")</td>
+                           <td></td>
+                       </tr>
+                   }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+
+
+</div>
+@section Scripts{ 
+    <script src="~/js/articleIndex.js" type="application/ecmascript"></script>
+}

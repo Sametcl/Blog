@@ -21,8 +21,8 @@ namespace Blog.Service.Services.Concrete
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public async Task<List<ArticleDto>> GetAllArticleAsync()
-        {   var articles= await unitOfWork.GetRepository<Article>().GetAllAsync();
+        public async Task<List<ArticleDto>> GetAllArticlesWithCategoryNonDeletedAsync()
+        {   var articles= await unitOfWork.GetRepository<Article>().GetAllAsync(x=>x.IsDeleted==false ,x=>x.Category);
             var map = mapper.Map<List<ArticleDto>>(articles);
             return map;
         }

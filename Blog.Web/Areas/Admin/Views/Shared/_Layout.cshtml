@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet" />
-
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="~/sneat/assets/vendor/fonts/boxicons.css" />
 
@@ -52,7 +52,7 @@
     <!-- Page CSS -->
     <!-- Helpers -->
     <script src="~/sneat/assets/vendor/js/helpers.js"></script>
-
+    
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="~/sneat/assets/js/config.js"></script>
@@ -144,7 +144,7 @@
                     <li class="menu-item ">
                         <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="menu-link">
                             <i class='menu-icon bx bx-category'></i>
-                            <div data-i18n="Analytics">Makale Yonetimi</div>
+                            <div data-i18n="Analytics">Kategori Yonetimi</div>
                         </a>
                     </li>
                     <li class="menu-item ">
@@ -326,13 +326,16 @@
            target="_blank"
            class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
     </div>
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="~/sneat/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/sneat/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/sneat/assets/vendor/js/bootstrap.js"></script>
     <script src="~/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.3/js/dataTables.buttons.min.js"></script>
 
     <script src="~/sneat/assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
@@ -347,7 +350,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
+    @await RenderSectionAsync("Scripts", false);
     <!-- Visual Studio Browser Link -->
     <script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestId="9fa0517e8be94e9680bbd98f317dcd9f" data-requestMappingFromServer="false" data-connectUrl="http://localhost:50930/526604294a534e339fe78cedd4b11b31/browserLink"></script>
     <!-- End Browser Link -->
