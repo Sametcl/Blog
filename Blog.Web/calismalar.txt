@@ -20,6 +20,7 @@
 3-Data katmaninda Interface repo ve somut repo yazildi 
 4-Data katmaninda extensions yazildi 
 
+
 3.GUN
 1-Data katmaninda UnitOfWork yapisi kullanildi sebebi tek yerden generic repository yonetimini saglamak.
 2-Service katmaninda interface ve somut olarak serviceler eklendi ve service extensions yazildi.
@@ -28,8 +29,9 @@
 
 4.GUN 
 1-Admin Paneli icin Area ve Template kisimlari yapildi 
-2-Entity katmaninda dto modelleri olusturul
+2-Entity katmaninda dto modelleri olusturuldu
 3-Service Katmaninda AutoMapper kutuphanesi entegre edildi 
+
 
 5.GUN
 1-Entity katmanina gerekli tablolar olusturuldu 

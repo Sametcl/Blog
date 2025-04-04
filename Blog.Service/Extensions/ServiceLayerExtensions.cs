@@ -11,6 +11,7 @@ namespace Blog.Service.Extensions
         {
             var assembly=Assembly.GetExecutingAssembly();//Service katmani demek 
             services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddAutoMapper(assembly);
             return services;
         }

@@ -1,0 +1,39 @@
+﻿@model ArticleAddDto
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Makale Yonetimi /</span> Makale Ekle</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header"></h5>
+                    <form method="post" asp-controller="Article" asp-action="Add" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="CategoryId">Kategori</label>
+                                <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))"></select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Title" class="form-label">Baslik</label>
+                                <input asp-for="Title" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Baslik giriniz" aria-describedby="defaultFormControlHelp">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Content" class="form-label">Icerik</label>
+                                <textarea asp-for="Content" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Icerik giriniz" aria-describedby="defaultFormControlHelp" style="min-height:300px;"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
