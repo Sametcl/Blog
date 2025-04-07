@@ -40,7 +40,10 @@
                            <td>@article.CreatedDate.ToShortDateString()</td>
                            <td>@article.CreatedBy</td>
                            <td>@(article.IsDeleted ? "Aktif Degil" : "Aktif")</td>
-                           <td></td>
+                           <td>
+                               <a class="btn btn-primary btn-sm" data-id="@article.Id" asp-area="Admin" asp-controller="Article" asp-action="Update" asp-route-articleId="@article.Id"><i class="bx bxs-edit"></i></a>
+
+                           </td>
                        </tr>
                    }
                 </tbody>
