@@ -21,10 +21,12 @@
                             <div class="form-group">
                                 <label asp-for="Title" class="form-label">Baslik</label>
                                 <input asp-for="Title" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Baslik giriniz" aria-describedby="defaultFormControlHelp">
+                                <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Content" class="form-label">Icerik</label>
                                 <textarea asp-for="Content" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Icerik giriniz" aria-describedby="defaultFormControlHelp" style="min-height:300px;"></textarea>
+                                <span asp-validation-for="Content" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">
