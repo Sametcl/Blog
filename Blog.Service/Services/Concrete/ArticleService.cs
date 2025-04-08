@@ -47,14 +47,14 @@ namespace Blog.Service.Services.Concrete
             return map;
         }
 
-        public async Task UpdateArticleAsync(ArticleUpdateDto articleUpdateDto)
+        public async Task<string> UpdateArticleAsync(ArticleUpdateDto articleUpdateDto)
         {
             var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted && x.Id == articleUpdateDto.Id, x => x.Category);
             mapper.Map(articleUpdateDto, article);
 
             await unitOfWork.GetRepository<Article>().UpdateAsync(article);
             await unitOfWork.SaveAsync();
-
+            return article.Title;
         }
 
         public async Task SafeDeleteArticleAsync(Guid articleId)

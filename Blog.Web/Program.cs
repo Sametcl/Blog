@@ -4,12 +4,20 @@ using Blog.Entity.Entities;
 using Blog.Service.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.LoadDataLayerExtensions(builder.Configuration);
 builder.Services.LoadServiceLayerExtensions();
 builder.Services.AddSession();
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews()
+    .AddNToastNotifyToastr(new ToastrOptions()
+    {
+        PositionClass=ToastPositions.BottomRight,
+        TimeOut=3000,
+        ProgressBar=true,
+    })
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>
 {
@@ -43,10 +51,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-
+app.UseNToastNotify();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseSession();
 app.UseRouting();
 app.UseAuthentication();
