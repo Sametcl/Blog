@@ -14,13 +14,15 @@ namespace Blog.Entity.Entities
         {
             
         }
-        public Image(string fileName, string fileType)
+        public Image(string fileName, string fileType,string createBy)
         {
             FileName = fileName;
             FileType = fileType;
+            CreateBy = createBy;
         }
         public string FileName { get; set; }
         public string FileType { get; set; }
+        public string CreateBy { get; }
         public ICollection<Article> Articles { get; set; }
         public ICollection<AppUser> Users { get; set; }
     }
