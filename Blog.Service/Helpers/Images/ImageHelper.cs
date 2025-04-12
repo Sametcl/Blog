@@ -18,6 +18,7 @@ namespace Blog.Service.Helpers.Images
         private const string articleImagesFolder = "article-images";
         private const string userImagesFolder = "user-images";
 
+
         public ImageHelper(IWebHostEnvironment env)
         {
             this.env = env;
@@ -27,53 +28,53 @@ namespace Blog.Service.Helpers.Images
         private string ReplaceInvalidChars(string fileName)
         {
             return fileName.Replace("İ", "I")
-                .Replace("ı", "i")
-                .Replace("Ğ", "G")
-                .Replace("ğ", "g")
-                .Replace("Ü", "U")
-                .Replace("ü", "u")
-                .Replace("ş", "s")
-                .Replace("Ş", "S")
-                .Replace("Ö", "O")
-                .Replace("ö", "o")
-                .Replace("Ç", "C")
-                .Replace("ç", "c")
-                .Replace("é", "")
-                .Replace("!", "")
-                .Replace("'", "")
-                .Replace("^", "")
-                .Replace("+", "")
-                .Replace("%", "")
-                .Replace("/", "")
-                .Replace("(", "")
-                .Replace(")", "")
-                .Replace("=", "")
-                .Replace("?", "")
-                .Replace("_", "")
-                .Replace("*", "")
-                .Replace("æ", "")
-                .Replace("ß", "")
-                .Replace("@", "")
-                .Replace("€", "")
-                .Replace("<", "")
-                .Replace(">", "")
-                .Replace("#", "")
-                .Replace("$", "")
-                .Replace("½", "")
-                .Replace("{", "")
-                .Replace("[", "")
-                .Replace("]", "")
-                .Replace("}", "")
-                .Replace(@"\", "")
-                .Replace("|", "")
-                .Replace("~", "")
-                .Replace("¨", "")
-                .Replace(",", "")
-                .Replace(";", "")
-                .Replace("`", "")
-                .Replace(".", "")
-                .Replace(":", "")
-                .Replace(" ", "");
+                 .Replace("ı", "i")
+                 .Replace("Ğ", "G")
+                 .Replace("ğ", "g")
+                 .Replace("Ü", "U")
+                 .Replace("ü", "u")
+                 .Replace("ş", "s")
+                 .Replace("Ş", "S")
+                 .Replace("Ö", "O")
+                 .Replace("ö", "o")
+                 .Replace("Ç", "C")
+                 .Replace("ç", "c")
+                 .Replace("é", "")
+                 .Replace("!", "")
+                 .Replace("'", "")
+                 .Replace("^", "")
+                 .Replace("+", "")
+                 .Replace("%", "")
+                 .Replace("/", "")
+                 .Replace("(", "")
+                 .Replace(")", "")
+                 .Replace("=", "")
+                 .Replace("?", "")
+                 .Replace("_", "")
+                 .Replace("*", "")
+                 .Replace("æ", "")
+                 .Replace("ß", "")
+                 .Replace("@", "")
+                 .Replace("€", "")
+                 .Replace("<", "")
+                 .Replace(">", "")
+                 .Replace("#", "")
+                 .Replace("$", "")
+                 .Replace("½", "")
+                 .Replace("{", "")
+                 .Replace("[", "")
+                 .Replace("]", "")
+                 .Replace("}", "")
+                 .Replace(@"\", "")
+                 .Replace("|", "")
+                 .Replace("~", "")
+                 .Replace("¨", "")
+                 .Replace(",", "")
+                 .Replace(";", "")
+                 .Replace("`", "")
+                 .Replace(".", "")
+                 .Replace(":", "")
+                 .Replace(" ", "");
         }
 
         public async Task<ImageUploadedDto> Upload(string name, IFormFile imageFile, ImageType imageType, string folderName = null)
@@ -90,7 +91,7 @@ namespace Blog.Service.Helpers.Images
 
             DateTime dateTime = DateTime.Now;
 
-            string newFileName = $"{name}_{dateTime.Millisecond}{fileExtension}";
+            string newFileName = $"{name}{fileExtension}";
 
             var path = Path.Combine($"{wwwroot}/{imgFolder}/{folderName}", newFileName);
 
@@ -108,14 +109,12 @@ namespace Blog.Service.Helpers.Images
             };
         }
 
-
         public void Delete(string imageName)
         {
             var fileToDelete = Path.Combine($"{wwwroot}/{imgFolder}/{imageName}");
             if (File.Exists(fileToDelete))
-            {
                 File.Delete(fileToDelete);
-            }
+
         }
     }
 }

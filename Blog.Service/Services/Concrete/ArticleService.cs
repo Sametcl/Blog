@@ -66,23 +66,30 @@ namespace Blog.Service.Services.Concrete
             var userEmail = _user.GetLoggedInEmail();
             var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted && x.Id == articleUpdateDto.Id, x => x.Category, i => i.Image);
 
-            // Başlık değiştiyse, görselin adını da güncelle
-            if (articleUpdateDto.Title != article.Title)
-            {
-                // Eski görseli sil
-                imageHelper.Delete(article.Image.FileName);
+            // Article DTO'sunu makale modeline dönüştür - ancak ImageId dışındaki özellikleri
+            article.Title = articleUpdateDto.Title;
+            article.Content = articleUpdateDto.Content;
+            article.CategoryId = articleUpdateDto.CategoryId;
+            // Diğer DTO özelliklerini buraya ekleyin, ancak ImageId'yi eklememeye dikkat edin
 
-                // Yeni görsel adı oluştur
+            // Yeni bir resim yüklendiyse işleme al
+            if (articleUpdateDto.Photo != null)
+            {
+                // Eski görseli varsa sil
+                if (article.Image != null)
+                    imageHelper.Delete(article.Image.FileName);
+
+                // Yeni görsel yükle
                 var imageUpload = await imageHelper.Upload(articleUpdateDto.Title, articleUpdateDto.Photo, ImageType.Post);
                 Image image = new(imageUpload.FullName, articleUpdateDto.Photo.ContentType, userEmail);
 
                 // Yeni görseli veritabanına kaydet
                 await unitOfWork.GetRepository<Image>().AddAsync(image);
-                article.ImageId = image.Id; // Görselin ID'sini güncelle
+                article.ImageId = image.Id;
+                articleUpdateDto.Image = image;
             }
+            // Yeni resim yüklenmediyse, mevcut ImageId korunacak (hiçbir şey yapmaya gerek yok)
 
-            // Article DTO'sunu makale modeline dönüştür
-            mapper.Map(articleUpdateDto, article);
             article.ModifiedDate = DateTime.Now;
             article.ModifiedBy = userEmail;
 
