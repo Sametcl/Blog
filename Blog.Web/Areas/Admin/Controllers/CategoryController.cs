@@ -4,6 +4,7 @@ using Blog.Entity.DTOs.Categories;
 using Blog.Entity.Entities;
 using Blog.Service.Extensions;
 using Blog.Service.Services.Abstraction;
+using Blog.Service.Services.Concrete;
 using Blog.Web.ResultMessages;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -77,6 +78,13 @@ namespace Blog.Web.Areas.Admin.Controllers
             }
             result.AddToModelState(ModelState);
             return View(categoryUpdateDto);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid categoryId)
+        {
+            var name= await categoryService.SafeDeleteCategoryAsync(categoryId);
+            toast.AddSuccessToastMessage(Messages.Category.Delete(name), new ToastrOptions { Title = "Islem Basarili" });
+            return RedirectToAction("Index", "Category", new { Area = "Admin" });
         }
     }
 }

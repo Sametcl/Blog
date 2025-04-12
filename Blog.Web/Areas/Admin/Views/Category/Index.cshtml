@@ -39,7 +39,7 @@
                             <td>@(category.IsDeleted ? "Aktif Degil" : "Aktif")</td>
                             <td>
                                 <a class="btn btn-primary btn-sm" data-id="@category.Id" asp-area="Admin" asp-controller="Category" asp-action="Update" asp-route-categoryId="@category.Id"><i class="bx bxs-edit"></i></a>
-                                <a class="btn btn-danger btn-sm" data-id="@category.Id" asp-area="Admin" asp-controller="Category" asp-action="Delete" categoryId="@category.Id"><i class="bx bxs-minus-circle"></i></a>
+                                <a class="btn btn-danger btn-sm" data-id="@category.Id" asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-categoryId="@category.Id"><i class="bx bxs-minus-circle"></i></a>
                             </td>
                         </tr> 
                     }
