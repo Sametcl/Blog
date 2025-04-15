@@ -33,5 +33,21 @@
             }
 
         }
+        public static class User
+        {
+            public static string Add(string userName)
+            {
+                return $"{userName} email adresli kullanici basariyla eklenmistir";
+            }
+            public static string Update(string userName)
+            {
+                return $"{userName} email adresli kullanici  basariyla guncellenmistir";
+            }
+            public static string Delete(string userName)
+            {
+                return $"{userName} email adresli kullanici silinmistir";
+            }
+
+        }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model UserAddDto
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Kullanici Yonetimi /</span> Kullanici Ekle</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header"></h5>
+                    <form method="post" asp-controller="User" asp-action="Add" enctype="multipart/form-data">
+                        <div asp-validation-summary="All" style="color:red"></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="form-label">Kullanici Adi</label>
+                                <input asp-for="FirstName" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lutfen kullanicinin adini giriniz" aria-describedby="defaultFormControlHelp">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName" class="form-label">Kullanici SoyAdi</label>
+                                <input asp-for="LastName" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lutfen kullanicinin soyadini giriniz" aria-describedby="defaultFormControlHelp">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="form-label">Kullanici Email Adresi</label>
+                                <input asp-for="Email" type="email" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lutfen kullanicinin email adresini giriniz" aria-describedby="defaultFormControlHelp">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="form-label">Kullanici Telefon Numarasi</label>
+                                <input asp-for="PhoneNumber" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lutfen kullanicinin telefon numarasi giriniz" aria-describedby="defaultFormControlHelp">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="RoleId" class="form-label">Kullanici Rolu</label>
+                                <select asp-for="RoleId" class="form-control" asp-items="@(new SelectList(Model.Roles,"Id","Name"))"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password" class="form-label">Kullanici Parolasi</label>
+                                <input asp-for="Password" type="password" class="form-control mb-3" id="defaultFormControlInput" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="defaultFormControlHelp">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
