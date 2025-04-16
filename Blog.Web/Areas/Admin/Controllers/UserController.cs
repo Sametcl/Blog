@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NToastNotify;
+using System.Data;
 
 namespace Blog.Web.Areas.Admin.Controllers
 {
@@ -49,6 +50,8 @@ namespace Blog.Web.Areas.Admin.Controllers
                 Roles = roles
             });
         }
+
+
         [HttpPost]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
@@ -83,6 +86,8 @@ namespace Blog.Web.Areas.Admin.Controllers
             });
         }
 
+
+
         [HttpGet]
         public async Task<IActionResult> Update(Guid userId)
         {
@@ -104,6 +109,8 @@ namespace Blog.Web.Areas.Admin.Controllers
             return View(map);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
@@ -124,7 +131,7 @@ namespace Blog.Web.Areas.Admin.Controllers
                         var findRole = await roleManager.FindByIdAsync(userUpdateDto.RoleId.ToString());
                         await userManager.AddToRoleAsync(user, findRole.Name);
                         toast.AddSuccessToastMessage(Messages.User.Update(userUpdateDto.Email), new ToastrOptions { Title = "Islem Basarili" });
-
+                        return RedirectToAction("Index", "User", new { Area = "Admin" });
                     }
                     else
                     {
@@ -138,6 +145,28 @@ namespace Blog.Web.Areas.Admin.Controllers
                         });
                     }
 
+                }
+            }
+            return NotFound();
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid userId)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            var result = await userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                toast.AddSuccessToastMessage(Messages.User.Delete(user.Email), new ToastrOptions { Title = "Islem Basarili" });
+                return RedirectToAction("Index", "User", new { Area = "Admin" });
+            }
+            else
+            {
+                foreach (var errors in result.Errors)
+                {
+                    ModelState.AddModelError("", errors.Description);
                 }
             }
             return NotFound();
