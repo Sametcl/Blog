@@ -5,6 +5,7 @@ using Blog.Web.ResultMessages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NToastNotify;
 
 namespace Blog.Web.Areas.Admin.Controllers
@@ -56,12 +57,11 @@ namespace Blog.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 map.UserName = userAddDto.Email;
-                var result = await userManager.CreateAsync(map,string.IsNullOrEmpty( userAddDto.Password) ? "" : userAddDto.Password);
+                var result = await userManager.CreateAsync(map, string.IsNullOrEmpty(userAddDto.Password) ? "" : userAddDto.Password);
                 if (result.Succeeded)
                 {
                     var findRole = await roleManager.FindByIdAsync(userAddDto.RoleId.ToString());
-                    var role= findRole.ToString();
-                    await userManager.AddToRoleAsync(map, role);
+                    await userManager.AddToRoleAsync(map, findRole.ToString());
                     toast.AddSuccessToastMessage(Messages.User.Add(userAddDto.Email), new ToastrOptions { Title = "Islem Basarili" });
                     return RedirectToAction("Index", "User", new { Area = "Admin" });
                 }
@@ -70,17 +70,77 @@ namespace Blog.Web.Areas.Admin.Controllers
                     foreach (var errors in result.Errors)
                     {
                         ModelState.AddModelError("", errors.Description);
-                        return View(new UserAddDto
-                        {
-                            Roles = roles
-                        });
                     }
+                    return View(new UserAddDto
+                    {
+                        Roles = roles
+                    });
                 }
             }
             return View(new UserAddDto
             {
                 Roles = roles
             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid userId)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            var roles = await roleManager.Roles.ToListAsync();
+
+            var map = mapper.Map<UserUpdateDto>(user);
+            map.Roles = roles;
+
+            var userRoles = await userManager.GetRolesAsync(user);
+            var userRole = userRoles.FirstOrDefault();
+
+            if (userRole != null)
+            {
+                var role = await roleManager.FindByNameAsync(userRole);
+                map.RoleId = role.Id;
+            }
+
+            return View(map);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
+        {
+            var user = await userManager.FindByIdAsync(userUpdateDto.Id.ToString());
+            if (user != null)
+            {
+                var userRole = string.Join("", await userManager.GetRolesAsync(user));
+                var roles = await roleManager.Roles.ToListAsync();
+                if (ModelState.IsValid)
+                {
+                    mapper.Map(userUpdateDto, user);
+                    user.UserName = userUpdateDto.Email;
+                    user.SecurityStamp = Guid.NewGuid().ToString();
+                    var result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await userManager.RemoveFromRoleAsync(user, userRole);
+                        var findRole = await roleManager.FindByIdAsync(userUpdateDto.RoleId.ToString());
+                        await userManager.AddToRoleAsync(user, findRole.Name);
+                        toast.AddSuccessToastMessage(Messages.User.Update(userUpdateDto.Email), new ToastrOptions { Title = "Islem Basarili" });
+
+                    }
+                    else
+                    {
+                        foreach (var errors in result.Errors)
+                        {
+                            ModelState.AddModelError("", errors.Description);
+                        }
+                        return View(new UserUpdateDto
+                        {
+                            Roles = roles
+                        });
+                    }
+
+                }
+            }
+            return NotFound();
         }
     }
 }
