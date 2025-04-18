@@ -16,6 +16,11 @@
             {
                 return $"{articleTitle} baslikli makale basariyla silinmistir";
             }
+
+            public static string UndoDelete(string articleTitle)
+            {
+                return $"{articleTitle} baslikli makale basariyla geri alinmistir";
+            }
         }
         public static class Category
         {
@@ -31,7 +36,10 @@
             {
                 return $"{categoryName} adli kategori silinmistir";
             }
-
+            public static string UndoDelete(string categoryName)
+            {
+                return $"{categoryName} adli kategori basariyla geri alinmistir";
+            }
         }
         public static class User
         {

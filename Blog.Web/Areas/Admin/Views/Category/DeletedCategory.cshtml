@@ -1,0 +1,58 @@
+﻿@model List<CategoryDto>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-nuted fw-light">Kategori Yonetimi /</span>Kategoriler
+    </h4>
+
+    <div class="card">
+
+        <div class="table-responsive text-nowrap m-5">
+           
+            <table class="table table-bordered" id="categoriesTable" width="100%" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Isim</th>
+                        <th>Olusturulma Tarihi</th>
+                        <th>Olusturan</th>
+                        <th>Durum</th>
+                        <th>Islemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Isim</th>
+                        <th>Olusturulma Tarihi</th>
+                        <th>Olusturan</th>
+                        <th>Durum</th>
+                        <th>Islemler</th>
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var category in Model)
+                    {
+                        <tr name="@category.Id">
+                            <td>@category.Name</td>
+                            <td>@category.CreatedDate.ToShortDateString()</td>
+                            <td>@category.CreatedBy</td>
+                            <td>@(category.IsDeleted ? "Aktif Degil" : "Aktif")</td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" data-id="@category.Id" asp-area="Admin" asp-controller="Category" asp-action="UndoDelete" asp-route-categoryId="@category.Id"><i class="bx bx-undo"></i></a>
+                                @*<a class="btn btn-danger btn-sm" data-id="@category.Id" asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-categoryId="@category.Id"><i class="bx bxs-minus-circle"></i></a>
+                            </td>*@
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+@section Scripts{
+    <script src="~/js/categoryIndex.js" type="application/ecmascript"></script>
+}
