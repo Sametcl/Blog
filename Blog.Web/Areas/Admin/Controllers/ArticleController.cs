@@ -5,6 +5,7 @@ using Blog.Service.Extensions;
 using Blog.Service.Services.Abstraction;
 using Blog.Web.ResultMessages;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
@@ -30,6 +31,7 @@ namespace Blog.Web.Areas.Admin.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin , Admin ,User")]
         public async Task<IActionResult> Index()
         {
             var article = await articleService.GetAllArticlesWithCategoryNonDeletedAsync();
@@ -38,6 +40,7 @@ namespace Blog.Web.Areas.Admin.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin , Admin ")]
         public async Task<IActionResult> DeletedArticle()
         {
             var article = await articleService.GetAllArticlesWithCategoryDeletedAsync();
@@ -46,6 +49,7 @@ namespace Blog.Web.Areas.Admin.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin , Admin ")]
         public async Task<IActionResult> Add()
         {
             var categories = await categoryService.GetAllCategoriesNonDeleted();
@@ -53,6 +57,7 @@ namespace Blog.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin , Admin ")]
         public async Task<IActionResult> Add(ArticleAddDto articleAddDto)
         {
             var map = mapper.Map<Article>(articleAddDto);
@@ -60,7 +65,7 @@ namespace Blog.Web.Areas.Admin.Controllers
             if (result.IsValid)
             {
                 await articleService.CreateArticleAsync(articleAddDto);
-                toast.AddSuccessToastMessage(Messages.Article.Add(articleAddDto.Title),new ToastrOptions { Title="Islem Basarili"});
+                toast.AddSuccessToastMessage(Messages.Article.Add(articleAddDto.Title), new ToastrOptions { Title = "Islem Basarili" });
                 return RedirectToAction("Index", "Article", new { Area = "Admin" });
             }
             else
@@ -71,6 +76,7 @@ namespace Blog.Web.Areas.Admin.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin , Admin ")]
         public async Task<IActionResult> Update(Guid articleId)
         {
             var article = await articleService.GetArticleWithCategoryNonDeletedAsync(articleId);
@@ -82,13 +88,14 @@ namespace Blog.Web.Areas.Admin.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin , Admin ")]
         public async Task<IActionResult> Update(ArticleUpdateDto articleUpdateDto)
         {
             var map = mapper.Map<Article>(articleUpdateDto);
             var result = await validator.ValidateAsync(map);
             if (result.IsValid)
             {
-                var title=await articleService.UpdateArticleAsync(articleUpdateDto);
+                var title = await articleService.UpdateArticleAsync(articleUpdateDto);
                 toast.AddSuccessToastMessage(Messages.Article.Update(title), new ToastrOptions { Title = "Islem Basarili" });
                 return RedirectToAction("Index", "Article", new { Area = "Admin" });
             }
@@ -102,6 +109,7 @@ namespace Blog.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin , Admin")]
         public async Task<IActionResult> Delete(Guid articleId)
         {
             var title = await articleService.SafeDeleteArticleAsync(articleId);
@@ -112,6 +120,7 @@ namespace Blog.Web.Areas.Admin.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin , Admin ")]
         public async Task<IActionResult> UndoDelete(Guid articleId)
         {
             var title = await articleService.UndoDeleteArticleAsync(articleId);
