@@ -1,6 +1,6 @@
 ﻿@model List<ArticleDto>
 @{ 
-    var isAuthorized = User.IsInRole("SuperAdmin") || User.IsInRole("Admin");
+    var isAuthorized = User.IsInRole($"{RoleConsts.SuperAdmin}") || User.IsInRole($"{RoleConsts.Admin}");
 }
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">
