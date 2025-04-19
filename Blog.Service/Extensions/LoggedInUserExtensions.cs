@@ -12,5 +12,6 @@ namespace Blog.Service.Extensions
         {
             return principal.FindFirstValue(ClaimTypes.Email);
         }
+
     }
 }

@@ -23,8 +23,8 @@ namespace Blog.Service.Services.Concrete
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            this.httpContextAccessor = httpContextAccessor;
             this.imageHelper = imageHelper;
+            this.httpContextAccessor = httpContextAccessor;
             _user = httpContextAccessor.HttpContext.User;
         }
 

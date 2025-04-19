@@ -1,6 +1,9 @@
-﻿using Blog.Service.Services.Abstraction;
+﻿using Blog.Entity.Entities;
+using Blog.Service.Services.Abstraction;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Blog.Web.Areas.Admin.Controllers
 {
@@ -10,7 +13,7 @@ namespace Blog.Web.Areas.Admin.Controllers
     {
         private readonly IArticleService articleService;
 
-        public HomeController(IArticleService articleService)
+        public HomeController(IArticleService articleService )
         {
             this.articleService = articleService;
         }
