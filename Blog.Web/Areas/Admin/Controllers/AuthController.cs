@@ -59,14 +59,14 @@ namespace Blog.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home", new {Area=""});
+            return RedirectToAction("Index", "Home", new { Area = "" });
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> AccessDenied()
+        public IActionResult AccessDenied()
         {
-           return View();   
+            return View();
         }
 
 

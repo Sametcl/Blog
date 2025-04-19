@@ -18,14 +18,16 @@ namespace Blog.Web.Areas.Admin.Controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
+        private readonly SignInManager<AppUser> signInManager;
         private readonly RoleManager<AppRole> roleManager;
         private readonly IValidator<AppUser> validator;
         private readonly IToastNotification toast;
 
-        public UserController(UserManager<AppUser> userManager, IMapper mapper, RoleManager<AppRole> roleManager, IValidator<AppUser> validator, IToastNotification toast)
+        public UserController(UserManager<AppUser> userManager, IMapper mapper, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IValidator<AppUser> validator, IToastNotification toast)
         {
             this.userManager = userManager;
             this.mapper = mapper;
+            this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.validator = validator;
             this.toast = toast;
@@ -179,6 +181,67 @@ namespace Blog.Web.Areas.Admin.Controllers
                 result.AddToIdentityModelState(this.ModelState);
             }
             return NotFound();
+        }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var map = mapper.Map<UserProfileDto>(user);
+            return View(map);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+
+            if (ModelState.IsValid)
+            {
+                var isVerified = await userManager.CheckPasswordAsync(user, userProfileDto.CurrentPassword);
+                if (isVerified && userProfileDto.NewPassword != null)
+                {
+                    var result = await userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        await userManager.UpdateSecurityStampAsync(user);
+                        await signInManager.SignOutAsync();
+                        await signInManager.PasswordSignInAsync(user, userProfileDto.NewPassword, true, false);
+                        user.FirstName = userProfileDto.FirstName;
+                        user.LastName = userProfileDto.LastName;
+                        user.PhoneNumber = userProfileDto.PhoneNumber;
+
+                        await userManager.UpdateAsync(user);
+                        toast.AddSuccessToastMessage("Sifreniz ve bilgileriniz basariyla degistirilmistir");
+                        return View();
+
+                    }
+                    else
+                    {
+                        result.AddToIdentityModelState(ModelState);
+                        return View();
+                    }
+                }
+                else if (isVerified)
+                {
+                    await userManager.UpdateSecurityStampAsync(user);
+                    user.FirstName = userProfileDto.FirstName;
+                    user.LastName = userProfileDto.LastName;
+                    user.PhoneNumber = userProfileDto.PhoneNumber;
+                    await userManager.UpdateAsync(user);
+                    toast.AddSuccessToastMessage("Bilgileriniz basariyla degistirilmistir");
+                    return View();
+                }
+                else
+                {
+                    toast.AddErrorToastMessage("Bilgileriniz guncellenirken bir hata olustu!");
+                    return View();
+                }
+            }
+            return View();
         }
     }
 }
