@@ -91,7 +91,7 @@ namespace Blog.Service.Helpers.Images
 
             DateTime dateTime = DateTime.Now;
 
-            string newFileName = $"{name}{fileExtension}";
+            string newFileName = $"{name}_{dateTime.Millisecond}{fileExtension}";
 
             var path = Path.Combine($"{wwwroot}/{imgFolder}/{folderName}", newFileName);
 

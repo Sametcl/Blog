@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using Blog.Data.UnitOfWorks;
+using Blog.Entity.DTOs.Articles;
 using Blog.Entity.DTOs.Users;
 using Blog.Entity.Entities;
+using Blog.Entity.Enums;
 using Blog.Service.Extensions;
+using Blog.Service.Helpers.Images;
 using Blog.Web.ResultMessages;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -18,16 +22,20 @@ namespace Blog.Web.Areas.Admin.Controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
         private readonly SignInManager<AppUser> signInManager;
+        private readonly IImageHelper imageHelper;
         private readonly RoleManager<AppRole> roleManager;
         private readonly IValidator<AppUser> validator;
         private readonly IToastNotification toast;
 
-        public UserController(UserManager<AppUser> userManager, IMapper mapper, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IValidator<AppUser> validator, IToastNotification toast)
+        public UserController(UserManager<AppUser> userManager, IMapper mapper,IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager,IImageHelper imageHelper, RoleManager<AppRole> roleManager, IValidator<AppUser> validator, IToastNotification toast)
         {
             this.userManager = userManager;
             this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
             this.signInManager = signInManager;
+            this.imageHelper = imageHelper;
             this.roleManager = roleManager;
             this.validator = validator;
             this.toast = toast;
@@ -190,19 +198,22 @@ namespace Blog.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await userManager.GetUserAsync(HttpContext.User);
+            var getImage = await unitOfWork.GetRepository<AppUser>().GetAsync(x=>x.Id == user.Id,x=>x.Image); 
             var map = mapper.Map<UserProfileDto>(user);
+            map.Image.FileName = getImage.Image.FileName;
             return View(map);
         }
 
         [HttpPost]
         public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
         {
+
             var user = await userManager.GetUserAsync(HttpContext.User);
 
             if (ModelState.IsValid)
-            {
+            {   
                 var isVerified = await userManager.CheckPasswordAsync(user, userProfileDto.CurrentPassword);
-                if (isVerified && userProfileDto.NewPassword != null)
+                if (isVerified && userProfileDto.NewPassword != null && userProfileDto.Photo !=null)
                 {
                     var result = await userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
                     if (result.Succeeded)
@@ -214,7 +225,13 @@ namespace Blog.Web.Areas.Admin.Controllers
                         user.LastName = userProfileDto.LastName;
                         user.PhoneNumber = userProfileDto.PhoneNumber;
 
+                        var imageUpload = await imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
+                        Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, user.Email);
+                        await unitOfWork.GetRepository<Image>().AddAsync(image);
+                        user.ImageId = image.Id;
                         await userManager.UpdateAsync(user);
+                        await unitOfWork.SaveAsync();
+
                         toast.AddSuccessToastMessage("Sifreniz ve bilgileriniz basariyla degistirilmistir");
                         return View();
 
@@ -225,12 +242,20 @@ namespace Blog.Web.Areas.Admin.Controllers
                         return View();
                     }
                 }
-                else if (isVerified)
+                else if (isVerified && userProfileDto.Photo != null)
                 {
                     await userManager.UpdateSecurityStampAsync(user);
                     user.FirstName = userProfileDto.FirstName;
                     user.LastName = userProfileDto.LastName;
                     user.PhoneNumber = userProfileDto.PhoneNumber;
+
+                    var imageUpload = await imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
+                    Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, user.Email);
+                    await unitOfWork.GetRepository<Image>().AddAsync(image);
+                    user.ImageId = image.Id;
+                    await userManager.UpdateAsync(user);
+                    await unitOfWork.SaveAsync();
+
                     await userManager.UpdateAsync(user);
                     toast.AddSuccessToastMessage("Bilgileriniz basariyla degistirilmistir");
                     return View();
