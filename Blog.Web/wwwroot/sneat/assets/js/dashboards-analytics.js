@@ -18,12 +18,7 @@
     totalRevenueChartOptions = {
       series: [
         {
-          name: '2021',
-          data: [18, 7, 15, 29, 18, 12, 9]
-        },
-        {
-          name: '2020',
-          data: [-13, -18, -9, -14, -5, -17, -15]
+              data: [18, 7, 15, 29, 18, 12, 9, 18, 7, 15, 29, 18]
         }
       ],
       chart: {
@@ -35,7 +30,7 @@
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '33%',
+          columnWidth: '50%',
           borderRadius: 12,
           startingShape: 'rounded',
           endingShape: 'rounded'
@@ -78,7 +73,7 @@
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          categories: ['Ocak', 'Subat', 'Mart', 'Nisan', 'Mayis', 'Haziran', 'Temmuz', 'Agustos', 'Eylul', 'EKim', 'Kasim', 'Aralik'],
         labels: {
           style: {
             fontSize: '13px',

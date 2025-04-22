@@ -20,5 +20,7 @@ namespace Blog.Service.Services.Abstraction
         Task<(IdentityResult identityResult, string? email)> DeleteUserAsync(Guid userId);
         Task<UserProfileDto> GetUserProfileAsync();
         Task<bool> UserProfileUpdateAsync(UserProfileDto userProfileDto);
+        Task<string> GetFirstUserRoleAsync(AppUser user);
+        Task<AppRole> GetRoleByNameAsync(string roleName);
     }
 }

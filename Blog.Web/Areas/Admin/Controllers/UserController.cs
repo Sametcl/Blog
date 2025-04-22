@@ -1,46 +1,27 @@
 ﻿using AutoMapper;
-using Blog.Data.UnitOfWorks;
-using Blog.Entity.DTOs.Articles;
 using Blog.Entity.DTOs.Users;
 using Blog.Entity.Entities;
-using Blog.Entity.Enums;
 using Blog.Service.Extensions;
-using Blog.Service.Helpers.Images;
 using Blog.Service.Services.Abstraction;
 using Blog.Web.ResultMessages;
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using NToastNotify;
-using System.Data;
-using static Blog.Web.ResultMessages.Messages;
 
 namespace Blog.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class UserController : Controller
     {
-        private readonly UserManager<AppUser> userManager;
         private readonly IUserService userService;
         private readonly IMapper mapper;
-        private readonly IUnitOfWork unitOfWork;
-        private readonly SignInManager<AppUser> signInManager;
-        private readonly IImageHelper imageHelper;
-        private readonly RoleManager<AppRole> roleManager;
         private readonly IValidator<AppUser> validator;
         private readonly IToastNotification toast;
 
-        public UserController(UserManager<AppUser> userManager, IUserService userService, IMapper mapper, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, IImageHelper imageHelper, RoleManager<AppRole> roleManager, IValidator<AppUser> validator, IToastNotification toast)
+        public UserController(IUserService userService, IMapper mapper, IValidator<AppUser> validator, IToastNotification toast)
         {
-            this.userManager = userManager;
             this.userService = userService;
             this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
-            this.signInManager = signInManager;
-            this.imageHelper = imageHelper;
-            this.roleManager = roleManager;
             this.validator = validator;
             this.toast = toast;
         }
@@ -101,18 +82,16 @@ namespace Blog.Web.Areas.Admin.Controllers
             var map = mapper.Map<UserUpdateDto>(user);
             map.Roles = roles;
 
-            var userRoles = await userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();
+            var userRole = await userService.GetFirstUserRoleAsync(user);
 
             if (userRole != null)
             {
-                var role = await roleManager.FindByNameAsync(userRole);
+                var role = await userService.GetRoleByNameAsync(userRole);
                 map.RoleId = role.Id;
             }
 
             return View(map);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
@@ -187,7 +166,7 @@ namespace Blog.Web.Areas.Admin.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
-        {  
+        {
             if (ModelState.IsValid)
             {
                 var result = await userService.UserProfileUpdateAsync(userProfileDto);

@@ -134,11 +134,14 @@ namespace Blog.Service.Services.Concrete
         private async Task<Guid> UploadImageForUser(UserProfileDto userProfileDto)
         {
             var userEmail = _user.GetLoggedInEmail();
+
             var imageUpload = await imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
             Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, userEmail);
             await unitOfWork.GetRepository<Image>().AddAsync(image);
+
             return image.Id;
         }
+
         public async Task<bool> UserProfileUpdateAsync(UserProfileDto userProfileDto)
         {
             var userId = _user.GetLoggedInUserId();
@@ -182,5 +185,18 @@ namespace Blog.Service.Services.Concrete
             else
                 return false;
         }
+
+
+        public async Task<string> GetFirstUserRoleAsync(AppUser user)
+        {
+            var roles = await userManager.GetRolesAsync(user);
+            return roles.FirstOrDefault();
+        }
+
+        public async Task<AppRole> GetRoleByNameAsync(string roleName)
+        {
+            return await roleManager.FindByNameAsync(roleName);
+        }
     }
 }
+

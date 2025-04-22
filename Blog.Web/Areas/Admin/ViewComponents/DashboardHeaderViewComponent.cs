@@ -23,6 +23,7 @@ namespace Blog.Web.Areas.Admin.ViewComponents
             var role = string.Join("",await userManager.GetRolesAsync(loggedInUser));
             map.Role = role;
             return View(map);
+            
         }
     }
 }
