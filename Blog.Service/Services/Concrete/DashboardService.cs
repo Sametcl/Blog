@@ -20,8 +20,8 @@ namespace Blog.Service.Services.Concrete
 
         public async Task<List<int>> GetYearlyArticleCounts()
         {
-            var articles = await unitOfWork.GetRepository<Article>().GetAllAsync(x=>!x.IsDeleted);
-            var startDate =DateTime.Now.Date;
+            var articles = await unitOfWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted);
+            var startDate = DateTime.Now.Date;
             startDate = new DateTime(startDate.Year, 1, 1);
             List<int> datas = new();
             for (int i = 1; i <= 12; i++)
@@ -32,6 +32,20 @@ namespace Blog.Service.Services.Concrete
                 datas.Add(data);
             }
             return datas;
+        }
+
+
+        public async Task<int> GetTotalArticleCount()
+        {
+            var articleCount = await unitOfWork.GetRepository<Article>().CountAsync();
+            return articleCount;
+        }
+
+
+        public async Task<int> GetTotalCategoryCount()
+        {
+            var categortCount = await unitOfWork.GetRepository<Category>().CountAsync();
+            return categortCount;
         }
     }
 }

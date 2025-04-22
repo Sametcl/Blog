@@ -64,7 +64,11 @@ namespace Blog.Data.Repositories.Concretes
 
         public async Task<int> CountAsync(Expression<Func<T, bool>> predicate = null)
         {
-            return await Table.CountAsync(predicate);
+            if (predicate != null)
+            {
+                return await Table.CountAsync(predicate);
+            }
+            return await Table.CountAsync();
         } 
     }
 }

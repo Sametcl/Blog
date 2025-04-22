@@ -1,6 +1,32 @@
 
 $(document).ready(function () {
     var yearlyArticlesUrl = app.Urls.yearlyArticlesUrl;
+    var totalArticleCountUrl = app.Urls.totalArticleCountUrl;
+    var totalCategoryCountUrl = app.Urls.totalCategoryCountUrl;
+    $.ajax({
+        type: "GET",
+        url: totalArticleCountUrl,
+        dataType: "json",
+        success: function (data) {
+            $("h3#totalArticleCount").append(data);
+        },
+        error: function () {
+            toastr.error("Makale analizleri olusturulurken hata olustu", "Hata");
+        }
+
+    });
+    $.ajax({
+        type: "GET",
+        url: totalCategoryCountUrl,
+        dataType: "json",
+        success: function (data) {
+            $("h3#totalCategoryCount").append(data);
+        },
+        error: function () {
+            toastr.error("Kategori analizleri olusturulurken hata olustu", "Hata");
+        }
+
+    });
 
 
     $.ajax({
