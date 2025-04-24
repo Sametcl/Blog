@@ -6,6 +6,7 @@ namespace Blog.Service.Services.Abstraction
     public interface ICategoryService
     {
         Task<List<CategoryDto>> GetAllCategoriesNonDeleted();
+        Task<List<CategoryDto>> GetAllCategoriesNonDeletedTake24();
         Task<List<CategoryDto>> GetAllCategoriesDeleted();
         Task CreateCategoryAsync(CategoryAddDto categoryAddDto);
         Task<Category> GetCategoryByGuid(Guid id);
