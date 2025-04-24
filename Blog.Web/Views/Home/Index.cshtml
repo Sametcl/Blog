@@ -10,12 +10,13 @@
                             <div class="col-lg-12">
                                 @foreach (var item in Model.Articles)
                                 {
+                                    <input type="hidden" id="keyword" value="@Model.CurrentPage" />
                                     <div class="blog-post">
                                         <div class="blog-thumb">
                                             <img src="~/stand-blog/assets/images/blog-post-01.jpg" alt="">
                                         </div>
                                         <div class="down-content">
-                                            <a href="post-details.html"><h4>@item.Title</h4></a>
+                                            <a asp-controller="Home" asp-action="Detail" asp-route-articleId="@item.Id"><h4>@item.Title</h4></a>
                                             <ul class="post-info">
                                                 <li>@item.User.FirstName @item.User.LastName</li>
                                                 <li>@item.CreatedDate.ToString("dd/MM/yyyy")</li>
@@ -35,7 +36,7 @@
                                                     <div class="col-6">
                                                         <ul class="post-share">
                                                             <li><i class="fa fa-link"></i></li>
-                                                            <li><a href="#">[Devamini oku]</a></li>
+                                                            <li><a asp-controller="Home" asp-action="Detail" asp-route-id="@item.Id">[Devamini oku]</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -114,8 +115,8 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="sidebar-item search">
-                                    <form id="search_form" method="GET" asp-controller="Home" asp-action="Search">
-                                        <input type="text" name="keyword" class="searchText" placeholder="Arama yapiniz..." autocomplete="on">
+                                    <form id="search_form" method="GET" asp-controller="Home" asp-action="Search" autocomplete="off">
+                                        <input type="text" name="keyword" class="searchText" placeholder="Arama yapiniz..." autocomplete="off">
                                     </form>
                                 </div>
                             </div>

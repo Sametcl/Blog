@@ -56,7 +56,7 @@ namespace Blog.Service.Services.Concrete
 
         public async Task<ArticleDto> GetArticleWithCategoryNonDeletedAsync(Guid articleId)
         {
-            var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted && x.Id == articleId, x => x.Category, i => i.Image);
+            var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted && x.Id == articleId, x => x.Category, i => i.Image, u => u.User);
             var map = mapper.Map<ArticleDto>(article);
             return map;
         }
@@ -149,8 +149,8 @@ namespace Blog.Service.Services.Concrete
         {
             pageSize = pageSize > 20 ? 20 : pageSize;
             var articles = await unitOfWork.GetRepository<Article>().GetAllAsync
-                (a => !a.IsDeleted && (a.Title.Contains(keyword) || a.Content.Contains(keyword) ||a.Category.Name.Contains(keyword)), a => a.Category, i => i.Image, u => u.User);
-              
+                (a => !a.IsDeleted && (a.Title.Contains(keyword) || a.Content.Contains(keyword) || a.Category.Name.Contains(keyword)), a => a.Category, i => i.Image, u => u.User);
+
             var sortedArticles = isAscending
                 ? articles.OrderBy(a => a.CreatedDate).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList()
                 : articles.OrderByDescending(a => a.CreatedDate).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
@@ -163,5 +163,8 @@ namespace Blog.Service.Services.Concrete
                 IsAscending = isAscending
             };
         }
+
+
+
     }
 }
