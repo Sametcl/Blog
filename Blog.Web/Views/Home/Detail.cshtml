@@ -28,7 +28,7 @@
                                                 <div class="col-6">
                                                     <ul class="post-tags">
                                                         <li><i class="fa fa-tags"></i></li>
-                                                        <li><a href="#">@Model.Category.Name</a></li>
+                                                        <li><a asp-controller="Home" asp-action="Index" asp-route-categoryId="@Model.Category.Id">@Model.Category.Name</a></li>
                                                     </ul>
                                                 </div>
                                                

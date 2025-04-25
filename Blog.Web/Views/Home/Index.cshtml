@@ -30,7 +30,7 @@
                                                     <div class="col-6">
                                                         <ul class="post-tags">
                                                             <li><i class="fa fa-tags"></i></li>
-                                                            <li><a href="#">@item.Category.Name</a></li>
+                                                            <li><a asp-controller="Home" asp-action="Index" asp-route-categoryId="@item.Category.Id">@item.Category.Name</a></li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-6">
