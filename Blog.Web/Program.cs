@@ -3,6 +3,7 @@ using Blog.Data.Extensions;
 using Blog.Entity.Entities;
 using Blog.Service.Describers;
 using Blog.Service.Extensions;
+using Blog.Web.Filters.ArticleVisitors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
@@ -11,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.LoadDataLayerExtensions(builder.Configuration);
 builder.Services.LoadServiceLayerExtensions();
 builder.Services.AddSession();
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(opt =>
+{
+    opt.Filters.Add<ArticleVisitorFilter>();
+})
     .AddNToastNotifyToastr(new ToastrOptions()
     {
         PositionClass=ToastPositions.BottomRight,
